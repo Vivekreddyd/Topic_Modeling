@@ -47,8 +47,11 @@ dict_sub_topic={}
 # Topic Modeling
 foi_arr=master_foi.split('.')
 doc=nlp(foi_arr[0])
-topic=(word.text for word in doc if(word.tag_=='NNS'))
+# topic=(word.text for word in doc if(word.tag_=='NNS'))
 # indx=0
+for word in doc:
+    if(word.tag_=='NNS'):
+        topic=word.text
 doc1=nlp(foi_arr[1])
 sub_topics=[]
 for indx,word1 in enumerate(doc1):
@@ -56,8 +59,12 @@ for indx,word1 in enumerate(doc1):
     sub_topics.append(word1.text)
     if (word1.tag_ == 'NN'):
         # topic = word.text
-        dict_sub_topic[word1.text]=[(model.wv.similarity(topic,word1.text),indx)]
-        # dict_sub_topic[word1.text]=[model.wv.similarity(topic,word1.text).item(),indx]
+        # dict_sub_topic[word1.text]=[(model.wv.similarity(topic,word1.text),indx)]
+        # print((model.wv.similarity(topic,word1.text)))
+        li = model.wv.similarity(topic,word1.text).item()
+        # print(li)
+        dict_sub_topic[word1.text]=[li]
+        dict_sub_topic[word1.text].append(indx)
 query_range=list(sorted(dict_sub_topic.values(), key=operator.itemgetter(0), reverse=True)[:2])
 
 # test=operator.itemgetter
@@ -149,7 +156,7 @@ vect = TfidfVectorizer(min_df=1)
 tfidf = vect.fit_transform(documents)
 final_arr=(tfidf * tfidf.T).A[0]
 final_arr=final_arr.tolist()
-for doc in sorted(final_arr):
+for doc in sorted(final_arr,reverse=True):
     print("Patent ID: "+documents_list[final_arr.index(doc)].zfill(20)+"\t"+"Document Relevance: "+ str(doc).zfill(12)+'\t'+"Assignee: "+ dict_pat_details[documents_list[final_arr.index(doc)]].zfill(12))
         # print(text)
     # print(foi)
