@@ -157,7 +157,8 @@ tfidf = vect.fit_transform(documents)
 final_arr=(tfidf * tfidf.T).A[0]
 final_arr=final_arr.tolist()
 for doc in sorted(final_arr,reverse=True):
-    print("Patent ID: "+documents_list[final_arr.index(doc)].zfill(20)+"\t"+"Document Relevance: "+ str(doc).zfill(12)+'\t'+"Assignee: "+ dict_pat_details[documents_list[final_arr.index(doc)]].zfill(12))
+    if(not documents_list[final_arr.index(doc)]=='Master'):
+        print("Patent ID: "+documents_list[final_arr.index(doc)].zfill(20)+"\t"+"Document Relevance: "+ str(doc).zfill(12)+'\t'+"Assignee: "+ dict_pat_details[documents_list[final_arr.index(doc)]].zfill(12))
         # print(text)
     # print(foi)
     # print(summ)
