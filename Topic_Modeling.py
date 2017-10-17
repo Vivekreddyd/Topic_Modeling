@@ -41,7 +41,7 @@ documents.append(master_foi+' '+master_sod+' '+master_dd)
 
 
 ###Loading Google word2Vec documents
-model = gensim.models.KeyedVectors.load_word2vec_format('/local/vivek/Word2vec/GoogleNews-vectors-negative300.bin.gz', binary=True)#, unicode_errors='ignore')
+model = gensim.models.KeyedVectors.load_word2vec_format('./GoogleNews-vectors-negative300.bin.gz', binary=True)#, unicode_errors='ignore')
 ###Loading Google word2Vec documents
 
 
